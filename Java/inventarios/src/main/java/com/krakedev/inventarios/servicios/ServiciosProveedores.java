@@ -13,7 +13,6 @@ import javax.ws.rs.core.Response;
 
 import com.krakedev.inventarios.bdd.ProveedoresBDD;
 import com.krakedev.inventarios.entidades.Proveedor;
-import com.krakedev.inventarios.entidades.TiposDocumento;
 
 
 @Path("proveedores")
@@ -36,21 +35,7 @@ public class ServiciosProveedores {
 		}
 	}
 	
-	@Path("recuperar")
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response recuperar(){
-		ProveedoresBDD proveedoreBDD = new ProveedoresBDD();
-		ArrayList<TiposDocumento> tiposDocumentos = null;
-		try {
-			tiposDocumentos = proveedoreBDD.recuperar();
-			return Response.ok(tiposDocumentos).build();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return Response.serverError().build();
-		}
-	}
+	
 	
 	@Path("crear")
 	@POST
