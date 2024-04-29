@@ -9,8 +9,6 @@ import java.util.ArrayList;
 
 import com.krakedev.inventarios.entidades.Categoria;
 import com.krakedev.inventarios.entidades.Producto;
-import com.krakedev.inventarios.entidades.Proveedor;
-import com.krakedev.inventarios.entidades.TiposDocumento;
 import com.krakedev.inventarios.entidades.UnidadDeMedida;
 import com.krakedev.inventarios.excepciones.KrakeDevException;
 import com.krakedev.inventarios.utils.ConexionBDD;
@@ -56,7 +54,7 @@ public class ProductosBDD {
 
 				producto = new Producto();
 				producto.setCodigo(codigoProducto);
-				producto.setNombre(nombreCategoria);
+				producto.setNombre(nombreProducto);
 				producto.setUnidadDeMedida(udm);
 				producto.setPrecioVenta(precioVenta);
 				producto.setTieneIva(tieneIva);

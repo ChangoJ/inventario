@@ -1,5 +1,4 @@
 package com.krakedev.inventarios.entidades;
-import com.krakedev.inventarios.entidades.CategoriaUDM;
 
 public class UnidadDeMedida {
 	private String nombre;
