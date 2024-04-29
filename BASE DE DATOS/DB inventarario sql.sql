@@ -5,8 +5,8 @@ DROP TABLE IF EXISTS cabecera_pedidos;
 DROP TABLE IF EXISTS historial_stock;
 DROP TABLE IF EXISTS productos;
 DROP TABLE IF EXISTS proveedores;
-DROP TABLE IF EXISTS categorias_unidad_medida;
 DROP TABLE IF EXISTS unidades_medida;
+DROP TABLE IF EXISTS categorias_unidad_medida;
 DROP TABLE IF EXISTS estados_pedido;
 DROP TABLE IF EXISTS tipo_documentos;
 DROP TABLE IF EXISTS categorias;
@@ -43,30 +43,32 @@ INSERT INTO tipo_documentos (codigo, descripcion) VALUES
 ('R', 'RUC');
 
 CREATE TABLE categorias_unidad_medida (
-    codigo_cudm serial NOT NULL,
+    codigo_cudm char(1) NOT NULL,
     nombre varchar(100) NOT NULL,
     PRIMARY KEY (codigo_cudm)
 );
 
-INSERT INTO categorias_unidad_medida (nombre) VALUES
-('Unidades'),
-('Volumen'),
-('Peso');
+INSERT INTO categorias_unidad_medida (codigo_cudm,nombre) VALUES
+('U','Unidades'),
+('V','Volumen'),
+('P','Peso');
 
 CREATE TABLE unidades_medida (
     codigo_udm varchar(100) NOT NULL,
     descripcion varchar(100) NOT NULL,
+	categoria_udm char(1) NOT NULL,
+	FOREIGN KEY (categoria_udm) REFERENCES categorias_unidad_medida(codigo_cudm),
     PRIMARY KEY (codigo_udm)
 );
 
-INSERT INTO unidades_medida (codigo_udm, descripcion) VALUES
-('ml', 'mililitros'),
-('l', 'litros'),
-('u', 'unidad'),
-('d', 'docena'),
-('g', 'gramos'),
-('kg', 'kilogramos'),
-('lb', 'libras');
+INSERT INTO unidades_medida (codigo_udm, descripcion,categoria_udm) VALUES
+('ml', 'mililitros','V'),
+('l', 'litros','V'),
+('u', 'unidad','U'),
+('d', 'docena','U'),
+('g', 'gramos','P'),
+('kg', 'kilogramos','P'),
+('lb', 'libras','P');
 
 
 CREATE TABLE proveedores (
@@ -105,21 +107,6 @@ INSERT INTO productos (nombre, UDM, precio_venta, tiene_iva, coste, categoria, s
 ('Mostaza', 'kg', 0.95, true, 0.89, 3, 0),
 ('Fuze Tea', 'u', 0.8, true, 0.7, 7, 50);
 
-
-CREATE TABLE cabecera_pedidos (
-    numero serial NOT NULL,
-    proveedor varchar(100) NOT NULL,
-    fecha date NOT NULL,
-    estado char(1) NOT NULL,
-    PRIMARY KEY (numero),
-    FOREIGN KEY (proveedor) REFERENCES proveedores(identificador),
-    FOREIGN KEY (estado) REFERENCES tipo_documentos(codigo)
-);
-
-INSERT INTO cabecera_pedidos (numero, proveedor, fecha, estado) VALUES
-(1, '1792285747', '2023-11-20', 'R'),
-(2, '1792285747', '2023-11-20', 'R');
-
 CREATE TABLE estados_pedido (
     codigo_estado_pedido char(1) NOT NULL,
     descripcion varchar(100) NOT NULL,
@@ -129,6 +116,22 @@ CREATE TABLE estados_pedido (
 INSERT INTO estados_pedido (codigo_estado_pedido, descripcion) VALUES
 ('S', 'Solicitado'),
 ('R', 'Recibido');
+
+
+CREATE TABLE cabecera_pedidos (
+    numero serial NOT NULL,
+    proveedor varchar(100) NOT NULL,
+    fecha date NOT NULL,
+    estado char(1) NOT NULL,
+    PRIMARY KEY (numero),
+    FOREIGN KEY (proveedor) REFERENCES proveedores(identificador),
+    FOREIGN KEY (estado) REFERENCES estados_pedido(codigo_estado_pedido)
+);
+
+INSERT INTO cabecera_pedidos (numero, proveedor, fecha, estado) VALUES
+(1, '1792285747', '2023-11-20', 'R'),
+(2, '1792285747', '2023-11-20', 'R');
+
 
 CREATE TABLE detalle_pedidos (
     codigo_detalle_pedido serial NOT NULL,
