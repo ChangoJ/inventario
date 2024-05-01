@@ -6,15 +6,18 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 
 import com.krakedev.inventarios.entidades.DetallePedido;
+import com.krakedev.inventarios.entidades.HistorialStock;
 import com.krakedev.inventarios.entidades.Pedido;
 import com.krakedev.inventarios.excepciones.KrakeDevException;
 import com.krakedev.inventarios.utils.ConexionBDD;
 
 public class PedidosBDD {
+	
 	public void insertar(Pedido pedido) throws KrakeDevException {
 		Connection con = null;
 		ResultSet rsClave = null;
@@ -22,6 +25,7 @@ public class PedidosBDD {
 		Date fechaActual = new Date();
 		int codigoCabecera = 0;
 		java.sql.Date fechaSQL = new java.sql.Date(fechaActual.getTime());
+		
 		
 		
 		try {
@@ -70,6 +74,10 @@ public class PedidosBDD {
 			
 			
 			
+			
+
+			ps.executeUpdate();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new KrakeDevException("Error al insertar el pedido. Detalle: "+e.getMessage());
@@ -91,9 +99,14 @@ public class PedidosBDD {
 		Connection con = null;
 		ResultSet rsClave = null;
 		PreparedStatement psDet = null;
+		PreparedStatement psDet2 = null;
+
+		HistorialStock historialStock = new HistorialStock();
 		Date fechaActual = new Date();
 		int codigoCabecera = 0;
 		java.sql.Date fechaSQL = new java.sql.Date(fechaActual.getTime());
+
+		Timestamp fechaHoraActual = new Timestamp(fechaActual.getTime());
 		
 		
 		try {
@@ -134,6 +147,16 @@ public class PedidosBDD {
 				psDet.setInt(3, detalle.getCodigo());
 				
 				psDet.executeUpdate();
+				
+				psDet2 = con
+						.prepareStatement("INSERT INTO historial_stock (fecha, referencia, producto, cantidad) VALUES (?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+
+				psDet2.setTimestamp(1, fechaHoraActual);
+				psDet2.setString(2, "Pedido "+pedido.getCodigo());
+				psDet2.setInt(3, detalle.getProducto().getCodigo());
+				psDet2.setInt(4, detalle.getCantidadRecibida());
+				
+				psDet2.executeUpdate();
 			}
 			
 			System.out.println("CodigoGenerado: "+codigoCabecera);
