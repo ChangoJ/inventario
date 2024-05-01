@@ -137,18 +137,18 @@ CREATE TABLE detalle_pedidos (
     codigo_detalle_pedido serial NOT NULL,
     cabecera_pedido int NOT NULL,
     producto int NOT NULL,
-    cantidad int NOT NULL,
-    subtotal money NOT NULL,
+    cantidad_solicitada int NOT NULL,
     cantidad_recibida int NOT NULL,
+    subtotal money NOT NULL,
     PRIMARY KEY (codigo_detalle_pedido),
     FOREIGN KEY (cabecera_pedido) REFERENCES cabecera_pedidos(numero),
     FOREIGN KEY (producto) REFERENCES productos(codigo_producto)
 );
 
-INSERT INTO detalle_pedidos (cabecera_pedido, producto, cantidad, subtotal, cantidad_recibida) VALUES
-(1, 1, 100, 37.29, 100),
-(1, 4, 50, 11.8, 50),
-(2, 1, 10, 3.73, 10);
+INSERT INTO detalle_pedidos (cabecera_pedido, producto, cantidad_solicitada, cantidad_recibida,subtotal) VALUES
+(1, 1, 100, 100, 37.29),
+(1, 4, 50, 50, 11.8),
+(2, 1, 10, 10, 3.73);
 
 CREATE TABLE cabecera_ventas (
     codigo_cabecera_ventas serial NOT NULL,
@@ -166,7 +166,7 @@ CREATE TABLE detalle_ventas (
     codigo_detalle_venta serial NOT NULL,
     cabecera_ventas int NOT NULL,
     producto int NOT NULL,
-    cantidad int NOT NULL,
+    cantidad_solicitada int NOT NULL,
     precio_venta money NOT NULL,
     subtotal money NOT NULL,
     subtotal_con_iva money NOT NULL,
@@ -175,7 +175,7 @@ CREATE TABLE detalle_ventas (
     FOREIGN KEY (producto) REFERENCES productos(codigo_producto)
 );
 
-INSERT INTO detalle_ventas (cabecera_ventas, producto, cantidad, precio_venta, subtotal, subtotal_con_iva) VALUES
+INSERT INTO detalle_ventas (cabecera_ventas, producto, cantidad_solicitada, precio_venta, subtotal, subtotal_con_iva) VALUES
 (1, 1, 5, 0.58, 2.9, 3.25),
 (1, 4, 1, 0.36, 0.36, 0.4);
 
