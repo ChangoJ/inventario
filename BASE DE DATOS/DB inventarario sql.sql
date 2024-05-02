@@ -119,16 +119,16 @@ INSERT INTO estados_pedido (codigo_estado_pedido, descripcion) VALUES
 
 
 CREATE TABLE cabecera_pedidos (
-    numero serial NOT NULL,
+    codigo serial NOT NULL,
     proveedor varchar(100) NOT NULL,
     fecha date NOT NULL,
     estado char(1) NOT NULL,
-    PRIMARY KEY (numero),
+    PRIMARY KEY (codigo),
     FOREIGN KEY (proveedor) REFERENCES proveedores(identificador),
     FOREIGN KEY (estado) REFERENCES estados_pedido(codigo_estado_pedido)
 );
 
-INSERT INTO cabecera_pedidos (numero, proveedor, fecha, estado) VALUES
+INSERT INTO cabecera_pedidos (codigo, proveedor, fecha, estado) VALUES
 (1, '1792285747', '2023-11-20', 'R'),
 (2, '1792285747', '2023-11-20', 'R');
 
@@ -141,7 +141,7 @@ CREATE TABLE detalle_pedidos (
     cantidad_recibida int NOT NULL,
     subtotal money NOT NULL,
     PRIMARY KEY (codigo_detalle_pedido),
-    FOREIGN KEY (cabecera_pedido) REFERENCES cabecera_pedidos(numero),
+    FOREIGN KEY (cabecera_pedido) REFERENCES cabecera_pedidos(codigo),
     FOREIGN KEY (producto) REFERENCES productos(codigo_producto)
 );
 
@@ -166,7 +166,7 @@ CREATE TABLE detalle_ventas (
     codigo_detalle_venta serial NOT NULL,
     cabecera_ventas int NOT NULL,
     producto int NOT NULL,
-    cantidad_solicitada int NOT NULL,
+    cantidad int NOT NULL,
     precio_venta money NOT NULL,
     subtotal money NOT NULL,
     subtotal_con_iva money NOT NULL,
@@ -175,7 +175,7 @@ CREATE TABLE detalle_ventas (
     FOREIGN KEY (producto) REFERENCES productos(codigo_producto)
 );
 
-INSERT INTO detalle_ventas (cabecera_ventas, producto, cantidad_solicitada, precio_venta, subtotal, subtotal_con_iva) VALUES
+INSERT INTO detalle_ventas (cabecera_ventas, producto, cantidad, precio_venta, subtotal, subtotal_con_iva) VALUES
 (1, 1, 5, 0.58, 2.9, 3.25),
 (1, 4, 1, 0.36, 0.36, 0.4);
 
@@ -207,4 +207,5 @@ SELECT * FROM estados_pedido;
 SELECT * FROM detalle_pedidos;
 SELECT * FROM cabecera_ventas;
 SELECT * FROM detalle_ventas;
+SELECT * FROM historial_stock;
 

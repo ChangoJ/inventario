@@ -12,6 +12,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.krakedev.inventarios.bdd.ProveedoresBDD;
+import com.krakedev.inventarios.entidades.DetallePedido;
 import com.krakedev.inventarios.entidades.Proveedor;
 
 
@@ -46,6 +47,24 @@ public class ServiciosProveedores {
 			proveedoreBDD.crear(proveedor);
 			return Response.ok().build();
 		} catch (Exception e) {
+			e.printStackTrace();
+			return Response.serverError().build();
+		}
+	}
+	
+	
+	
+	@Path("buscarPedidosPorProveedor/{subcadena}")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response buscarPedidosPorProveedor(@PathParam("subcadena")  String subcadena){
+		ProveedoresBDD proveedoreBDD = new ProveedoresBDD();
+		ArrayList<DetallePedido> detallePedidos = null;
+		try {
+			detallePedidos = proveedoreBDD.buscarPedidosPorProveedor(subcadena);
+			return Response.ok(detallePedidos).build();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return Response.serverError().build();
 		}

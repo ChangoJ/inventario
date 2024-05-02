@@ -16,6 +16,7 @@ import com.krakedev.inventarios.excepciones.KrakeDevException;
 import com.krakedev.inventarios.utils.ConexionBDD;
 
 public class VentasBDD {
+	
 	public void guardar(Venta venta) throws KrakeDevException {
 		Connection con = null;
 		ResultSet rsClave = null;

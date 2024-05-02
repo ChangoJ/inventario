@@ -10,6 +10,22 @@ public class DetallePedido {
 	private BigDecimal subtotal;
 	private int cantidadRecibida;
 	
+	public DetallePedido() {
+		
+	}
+	
+	
+	public DetallePedido(int codigo, Pedido cabecera, Producto producto, int cantidadSolicitada, BigDecimal subtotal,
+			int cantidadRecibida) {
+		super();
+		this.codigo = codigo;
+		this.cabecera = cabecera;
+		this.producto = producto;
+		this.cantidadSolicitada = cantidadSolicitada;
+		this.subtotal = subtotal;
+		this.cantidadRecibida = cantidadRecibida;
+	}
+
 	public int getCodigo() {
 		return codigo;
 	}
