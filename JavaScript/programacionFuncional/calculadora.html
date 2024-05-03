@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArrowFunctions</title>
+    <script src="utilitarios.js"></script>
+    <script src="funciones.js"></script>
+</head>
+
+<body>
+    <h4>Ingrese el valor 1: </h4>
+    <input type="text" id="txtvalor1" />
+
+    <h4>Ingrese el valor 2: </h4>
+    <input type="text" id="txtvalor2" />
+
+    <input type="button" value="Sumar" onclick="ejecutarOperacion(sumar)" />
+    <input type="button" value="Restar" onclick="ejecutarOperacion(restar)" />
+    <input type="button" value="MULTIPLICAR" onclick="ejecutarOperacion((numero1, numero2) =>{
+        let resultado
+    resultado = numero1 * numero2;
+    return resultado
+    })" />
+
+    <input type="button" value="DETERMINAR MAYOR" onclick="ejecutarOperacion((numero1, numero2)=>{
+      
+       if(numero1 > numero2){
+        return numero1
+       } else {
+        return numero2
+       }
+
+    })">
+
+    <input type="button" value="EJECUTAR" onclick="testEjecutar()" />
+
+</body>
+
+</html>
