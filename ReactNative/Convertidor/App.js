@@ -8,15 +8,15 @@ export default function App() {
   const [resultado, setResultado] = useState(0)
 
   const convertirAPesosMexicanos = () => {
-    setResultado(parseFloat(valor * 21) + " MXN")
+    setResultado(parseFloat(valor * 16.97) + " MXN")
   }
 
   const convertirAPesosColombianos = () => {
-    setResultado(parseFloat(valor * 3800)  + " COP")
+    setResultado(parseFloat(valor * 3884)  + " COP")
   }
 
   const convertirAEuros = () => {
-    setResultado(parseFloat(valor * 0.82)  + " EUR")
+    setResultado(parseFloat(valor * 0.93)  + " EUR")
   }
 
 
