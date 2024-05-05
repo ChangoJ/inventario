@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   cajaTexto: {
-    borderColor: "Black",
+    borderColor: "black",
     borderWidth: 1,
     padding: 5
   }
