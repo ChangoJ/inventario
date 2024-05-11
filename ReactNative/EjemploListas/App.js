@@ -33,27 +33,27 @@ export default function App() {
   const [numElementos, setNumElementos] = useState(personas.length)
 
 
-  let ItemPersona = (props) => {
+  let ItemPersona = ({indice, persona}) => {
     return (
       <View style={styles.itemPersona}>
         <View style={styles.itemIndice}>
-          <Text>{props.indice}</Text>
+          <Text>{indice}</Text>
         </View>
         <View style={styles.itemContenido}>
-          <Text style={styles.textoPrincipal}>{props.persona.nombre} {props.persona.apellido} </Text>
-          <Text style={styles.textoSecundario}>{props.persona.cedula}</Text>
+          <Text style={styles.textoPrincipal}>{persona.nombre} {persona.apellido} </Text>
+          <Text style={styles.textoSecundario}>{persona.cedula}</Text>
         </View>
         <View style={styles.itemBotones}>
           <Button
             title=' E '
             color="green"
             onPress={() => {
-              console.log("datos: ", props.persona)
-              setCedula(props.persona.cedula)
-              setNombre(props.persona.nombre)
-              setApellido(props.persona.apellido)
+              console.log("datos: ", persona)
+              setCedula(persona.cedula)
+              setNombre(persona.nombre)
+              setApellido(persona.apellido)
               esNuevo = false
-              inidiceSeleccionado = props.indice
+              inidiceSeleccionado = indice
 
             }}
 
@@ -62,7 +62,7 @@ export default function App() {
             title=' X '
             color="red"
             onPress={() => {
-              inidiceSeleccionado = props.indice
+              inidiceSeleccionado = indice
               personas.splice(inidiceSeleccionado, 1)
               setNumElementos(personas.length)
             }}
@@ -164,10 +164,10 @@ export default function App() {
         <FlatList
           style={styles.lista}
           data={personas}
-          renderItem={(elemento) => {
+          renderItem={({index, item}) => {
             return <ItemPersona
-              indice={elemento.index}
-              persona={elemento.item}
+              indice={index}
+              persona={item}
 
             />
           }}

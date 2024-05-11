@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, FlatList, ScrollView, TextInput, Alert, Button } from 'react-native';
+import { StyleSheet, Modal, Pressable, Text, View, TouchableHighlight, FlatList, ScrollView, TextInput, Alert, Button } from 'react-native';
 
 
 let productos = [
@@ -30,7 +30,7 @@ export default function App() {
   const [precioCompra, setPrecioCompra] = useState()
   const [precioVenta, setPrecioVenta] = useState(0)
   const [numElementosProductos, setnumElementosProductos] = useState(productos.length)
-
+  const [modalVisible, setModalVisible] = useState(false);
 
   let ItemProducto = (props) => {
     return (
@@ -46,9 +46,9 @@ export default function App() {
           <Text style={styles.textoPrecio}>{props.producto.precioVenta}</Text>
         </View>
         <View style={styles.itemBotones}>
-          <Button
-            title=' E '
-            color="green"
+          <TouchableHighlight
+            activeOpacity={0.6}
+            underlayColor="#DDDDDD"
             onPress={() => {
               console.log("datos: ", props.producto)
               setCodigo(props.producto.id.toString())
@@ -61,18 +61,51 @@ export default function App() {
 
 
             }}
-
-          />
+          >
+            <View style={styles.botonEditar}>
+              <Text>E</Text>
+            </View>
+          </TouchableHighlight>
           <Button
             title=' X '
             color="red"
             onPress={() => {
               productoSeleccionado = props.indice
-              productos.splice(productoSeleccionado, 1)
-              setnumElementosProductos(productos.length)
+              setModalVisible(true)
             }}
           />
         </View>
+
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            setModalVisible(!modalVisible);
+          }}>
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Text style={styles.modalText}>¿Está seguro que quiere eliminar?</Text>
+              <View style={styles.botonesModal}>
+                <Pressable
+                  style={[styles.button, styles.buttonDelete]}
+                  onPress={() => {
+                    productos.splice(productoSeleccionado, 1)
+                    setnumElementosProductos(productos.length)
+                    setModalVisible(!modalVisible)
+                  }}>
+                  <Text style={styles.textStyle}>Aceptar</Text>
+                </Pressable>
+                <Pressable
+                  style={[styles.button, styles.buttonClose]}
+                  onPress={() => setModalVisible(!modalVisible)}>
+                  <Text style={styles.textStyle}>Cerrar</Text>
+                </Pressable>
+              </View>
+
+            </View>
+          </View>
+        </Modal>
       </View>
     )
   }
@@ -83,7 +116,7 @@ export default function App() {
     setCategoria(null)
     setPrecioCompra(null)
     setPrecioVenta(null)
-    
+
     esNuevo = true
   }
 
@@ -147,7 +180,7 @@ export default function App() {
       <View style={styles.tituloContainer}>
         <Text style={styles.titulo}>PRODUCTOS</Text>
       </View>
-      <View>
+      <View style={styles.areaForm}>
         <ScrollView>
           <View>
             <TextInput
@@ -204,7 +237,7 @@ export default function App() {
           </View>
         </ScrollView>
       </View>
-      <View>
+      <View style={styles.areaContenido}>
         <FlatList
           style={styles.lista}
           data={productos}
@@ -216,14 +249,18 @@ export default function App() {
               />
             )
           }}
-          keyExtractor={(item) => {
-            return item.id;
-          }}
+          keyExtractor={item => item.id // sirve para retornar simplicado de igual forma los () con parametros simplicado
+          }
         />
       </View>
 
-      <StatusBar style="auto" />
+      <View style={styles.areaPie}>
+        <Text>Autor: Jordan Chango</Text>
+      </View>
+
+
     </View>
+
   );
 }
 
@@ -274,6 +311,7 @@ const styles = StyleSheet.create({
   itemBotones: {
     flex: 2,
     flexDirection: "row",
+    alignItems: "center",
     justifyContent: "space-evenly",
   },
   textoPrecio: {
@@ -293,8 +331,75 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-evenly",
     alignItems: "center",
-    marginBottom: 20,
-    marginTop: 5
+    marginBottom: 50,
+    marginTop: 10
+  },
+  areaForm: {
+
+    flex: 4
+  },
+  areaContenido: {
+    flex: 5
+  },
+  areaPie: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: "flex-end"
+  },
+  botonEditar: {
+    backgroundColor: "green",
+    paddingHorizontal: 12,
+    paddingVertical: 9
+  }, centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+    margin: 5
+  },
+  buttonDelete: {
+    backgroundColor: '#ff0000',
+    padding: 5,
+    borderRadius: 5
+  },
+  buttonClose: {
+    backgroundColor: '#2196F3',
+    padding: 5,
+    borderRadius: 5
+  },
+  textStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center',
+  },
+  botonesModal: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+
   }
 
 });
