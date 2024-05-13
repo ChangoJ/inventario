@@ -1,7 +1,7 @@
-import { StatusBar } from 'expo-status-bar';
+
 import React, { useState } from 'react';
 import { StyleSheet, Modal, Pressable, Text, View, TouchableHighlight, FlatList, ScrollView, TextInput, Alert, Button } from 'react-native';
-
+import "react-native-gesture-handler";
 
 let productos = [
   {
