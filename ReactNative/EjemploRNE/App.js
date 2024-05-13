@@ -1,15 +1,51 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { Button } from '@rneui/base';
+import React, { useState } from 'react';
+import { Alert, StyleSheet, Text, View } from 'react-native';
+import { Button, Icon, Input } from '@rneui/base';
 
 export default function App() {
+
+  let [name, setName] = useState()
+
   return (
     <View style={styles.container}>
       <Text>RNE</Text>
-      <Button 
-      title="OK"
+      <Input
+        value={name}
+        onChangeText = {setName}
+        placeholder='Ingrese su nombre'
+        label= "Nombre"
       />
+      <Button
+        title="OK"
+        icon={{
+          name: 'home',
+          type: 'font-awesome',
+          size: 15,
+          color: 'white',
+        }}
+        onPress = {()=>{
+          Alert.alert("Info", "Su nombre es: "+name)
+        }}
+      />
+
+      <Button
+        title="Cancel"
+        icon={<Icon
+          name='reddit'
+          type='zodial'
+          color='white'
+        />}
+      />
+
+      <Icon
+        name='albums'
+        type='ionicon'
+        color='black'
+      />
+
+    
+  <Text>{name}</Text>
       <StatusBar style="auto" />
     </View>
   );
